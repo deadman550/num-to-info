@@ -238,14 +238,18 @@ def process_lookup(message, num):
                     log_entry = {"timestamp": datetime.now().strftime('%d/%m %H:%M'), "uid": uid, "u_name": u_name, "target": num}
                     save_db(HIST_COL, f"log_{int(time.time()*1000)}", log_entry)
 
-                    output = f"👤 <b>NAME:</b> <code>{item.get('NAME', 'N/A')}</code>\n📍 <b>ADDR:</b> <code>{item.get('ADDRESS', 'N/A')}</code>"
-                    bot.send_message(message.chat.id, output, parse_mode="HTML")
-                bot.delete_message(message.chat.id, wait.message_id)
-            else: bot.edit_message_text("❌ No records.", message.chat.id, wait.message_id)
-        else: bot.edit_message_text("❌ API Error.", message.chat.id, wait.message_id)
-    except Exception as e: 
-        bot.edit_message_text("⚠️ Connection Error.", message.chat.id, wait.message_id)
-
+                    output = (
+        f"👤 <b>REAL NAME:</b> <code>{target_name}</code>\n"
+        f"👨 <b>FATHER NAME:</b> <code>{item.get('fname', 'N/A')}</code>\n"
+        f"🆔 <b>ADHAAR ID:</b> <code>[Redacted]</code>\n" # Security rule
+        f"📱 <b>PRIMARY:</b> <code>{item.get('MOBILE', num)}</code>\n"
+        f"📞 <b>ALTERNATE:</b> <code>{item.get('alt', 'N/A')}</code>\n"
+        f"📧 <b>EMAIL:</b> <code>{item.get('EMAIL', 'N/A')}</code>\n"
+        f"📍 <b>CIRCLE/SIM:</b> <code>{item.get('circle', 'N/A')}</code>\n"
+        f"🏠 <b>ADDRESS:</b> <code>{item.get('ADDRESS', 'N/A')}</code>\n\n"
+        f"✨ <b>Powered by: {OWNER_USERNAME}</b>"
+    )
+    bot.send_message(message.chat.id, output, parse_mode="HTML")
 # --- ADMIN PANEL & STEPS ---
 def show_admin_panel(message):
     markup = types.InlineKeyboardMarkup(row_width=2)
