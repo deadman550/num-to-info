@@ -1,0 +1,10 @@
+{
+    "Lite": {
+        "credits": 10,
+        "price": "50"
+    },
+    "pro ": {
+        "credits": 100,
+        "price": "299"
+    }
+}
